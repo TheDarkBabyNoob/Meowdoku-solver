@@ -37,8 +37,18 @@ class SelectionOverlay(QWidget):
         self._dragging = False
 
     def start(self):
+        # Deliberately not showFullScreen(): on macOS that promotes the
+        # window into native fullscreen, which moves it to a brand-new
+        # Space. Every other window (Finder, iPhone Mirroring, etc.) stays
+        # on the original Space, so nothing is left behind our translucent
+        # background except the empty desktop -- the overlay then looks
+        # like an opaque black screen showing only the wallpaper, and no
+        # other app is visible to select over. A plain borderless window
+        # sized to the screen (already set in __init__) stays on the
+        # current Space instead, so the real windows underneath show
+        # through the translucency as intended.
         self.setWindowOpacity(1.0)
-        self.showFullScreen()
+        self.show()
         self.raise_()
         self.activateWindow()
         self.setFocus(Qt.FocusReason.ActiveWindowFocusReason)
