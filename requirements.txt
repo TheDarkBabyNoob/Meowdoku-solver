@@ -1,0 +1,7 @@
+# Versions actually installed and tested during development of this app:
+# Python 3.14.2 (Apple Silicon, macOS 26.6) -- see README for compatibility notes.
+PySide6==6.11.2
+opencv-python-headless==5.0.0.93
+numpy==2.5.3
+mss==10.2.0
+pytest==9.1.1

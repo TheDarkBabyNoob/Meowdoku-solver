@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+build/
+dist/
+*.spec
+*.spec.bak
+.DS_Store
+/debug_export/
+tests/_test_app_support/
+*.icns
+*.iconset/
+/icon_1024.png
+packaging/icon_1024.png
+/Meowdoku Companion.app/

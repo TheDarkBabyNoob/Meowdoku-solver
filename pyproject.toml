@@ -1,0 +1,19 @@
+[project]
+name = "meowdoku-companion"
+version = "0.1.0"
+description = "Local screen-scan-and-solve companion for Oakever's Meowdoku, played via iPhone Mirroring."
+requires-python = ">=3.11"
+readme = "README.md"
+dependencies = [
+    "PySide6==6.11.2",
+    "opencv-python-headless==5.0.0.93",
+    "numpy==2.5.3",
+    "mss==10.2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+build = ["pyinstaller"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
