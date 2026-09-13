@@ -101,7 +101,8 @@ Security → Screen Recording. Grant it to:
 This app **never** requests Accessibility access. It only reads pixels; it
 never simulates clicks, key presses, or mouse movement, and there is no
 background/continuous screen monitoring — a capture only happens when you
-click **Scan & Solve** or **Import Screenshot**.
+click **Scan & Solve** or **Import Screenshot**, or drop an image file onto
+the window (same effect as **Import Screenshot**, without the file dialog).
 
 ## Using it with iPhone Mirroring
 

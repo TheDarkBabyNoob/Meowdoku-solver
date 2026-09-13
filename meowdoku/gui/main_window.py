@@ -10,7 +10,7 @@ from typing import Optional
 import cv2
 import numpy as np
 from PySide6.QtCore import QRect, Qt, QTimer
-from PySide6.QtGui import QColor, QImage, QPixmap
+from PySide6.QtGui import QColor, QDragEnterEvent, QDropEvent, QImage, QPixmap
 from PySide6.QtWidgets import (
     QApplication, QCheckBox, QComboBox, QDoubleSpinBox, QFileDialog, QFrame,
     QHBoxLayout, QInputDialog, QLabel, QListWidget, QListWidgetItem,
@@ -46,6 +46,8 @@ STATUS_TEXT = {
     SolveStatus.CANCELLED: "Cancelled",
 }
 
+IMAGE_FILE_SUFFIXES = (".png", ".jpg", ".jpeg", ".bmp")
+
 
 class EditMode(Enum):
     CYCLE_STATE = "cycle_state"
@@ -67,6 +69,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Meowdoku Companion")
         self.resize(1180, 760)
+        self.setAcceptDrops(True)
 
         self.capture_backend = MSSCaptureBackend()
         self.session = BoardSession()
@@ -445,6 +448,9 @@ class MainWindow(QMainWindow):
         path, _ = QFileDialog.getOpenFileName(self, "Import Screenshot", "", "Images (*.png *.jpg *.jpeg *.bmp)")
         if not path:
             return
+        self._import_image_from_path(path)
+
+    def _import_image_from_path(self, path: str):
         image = cv2.imread(path, cv2.IMREAD_COLOR)
         if image is None:
             QMessageBox.warning(self, "Import failed", "Could not read that image file.")
@@ -453,6 +459,29 @@ class MainWindow(QMainWindow):
         self.last_crop_bgr = image
         self._update_crop_preview(image)
         self._launch_scan_worker(revision, image)
+
+    # -------------------------------------------------------- drag & drop
+
+    @staticmethod
+    def _first_image_path(mime_data) -> Optional[str]:
+        for url in mime_data.urls():
+            if not url.isLocalFile():
+                continue
+            path = url.toLocalFile()
+            if path.lower().endswith(IMAGE_FILE_SUFFIXES):
+                return path
+        return None
+
+    def dragEnterEvent(self, event: QDragEnterEvent):
+        if self._first_image_path(event.mimeData()) is not None:
+            event.acceptProposedAction()
+
+    def dropEvent(self, event: QDropEvent):
+        path = self._first_image_path(event.mimeData())
+        if path is None:
+            return
+        event.acceptProposedAction()
+        self._import_image_from_path(path)
 
     # ------------------------------------------------------------ workers
 
