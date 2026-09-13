@@ -1,6 +1,6 @@
 [project]
 name = "meowdoku-companion"
-version = "0.1.0"
+version = "0.2.0"
 description = "Local screen-scan-and-solve companion for Oakever's Meowdoku, played via iPhone Mirroring."
 requires-python = ">=3.11"
 readme = "README.md"

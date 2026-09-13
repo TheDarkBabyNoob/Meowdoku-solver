@@ -18,7 +18,7 @@ from PySide6.QtWidgets import (
     QSizePolicy, QSpinBox, QSplitter, QVBoxLayout, QWidget,
 )
 
-from meowdoku import persistence
+from meowdoku import __version__, persistence
 from meowdoku import solver as solver_mod
 from meowdoku.capture.base import CaptureError
 from meowdoku.capture.mss_backend import MSSCaptureBackend, is_probably_blank
@@ -67,7 +67,7 @@ def bgr_to_qpixmap(bgr: np.ndarray) -> QPixmap:
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Meowdoku Companion")
+        self.setWindowTitle(f"Meowdoku Companion v{__version__}")
         self.resize(1180, 760)
         self.setAcceptDrops(True)
 
